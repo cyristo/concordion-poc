@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:c="http://www.concordion.org/2007/concordion">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Fruit Basket Specification</title>
+<link href="concordion.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+	<h1>Feature : Fruit Basket</h1>
+
+	In order to sell bananas and apples<br />
+	As a fruit seller<br />
+	I want a basket to add and remove articles and to provide the total price<br />
+
+	<h2>Scenario : Basket checkout with bananas and apples</h2>
+
+
+	<div c:example="example1">
+		<h3>Example : normal quantity</h3>
+	 	Given the banana price is <span c:execute="setBananaPrice(#TEXT)">20</span><br />
+	 	And the apple price is <span c:execute="setApplePrice(#TEXT)">10</span><br />
+	 	If I add <span c:execute="setBananaQuantity(#TEXT)">2</span> bananas <br/>
+	 	And <span c:execute="setAppleQuantity(#TEXT)">1</span> apple to my basket<br />
+	 	Then the <span c:execute="#total = getBasketTotal()">basket total</span> should be <span c:assert-equals="#total">50.0</span> <br />
+	</div>
+
+	<div c:example="example2">
+		<h3>Example : huge quantity</h3>
+		Given the banana price is <span c:execute="setBananaPrice(#TEXT)">25</span><br />
+	 	And the apple price is <span c:execute="setApplePrice(#TEXT)">15</span><br />
+	 	If I add <span c:execute="setBananaQuantity(#TEXT)">100</span> bananas<br/>
+	 	And <span c:execute="setAppleQuantity(#TEXT)">100</span> apple to my basket<br />
+	 	Then the <span c:execute="#total = getBasketTotal()">basket total</span> should be <span c:assert-equals="#total">4000.0</span> <br />
+	</div>
+	
+	<div c:example="example3">
+		<h3>Example : zero quantity</h3>
+		Given the banana price is <span c:execute="setBananaPrice(#TEXT)">25</span><br />
+	 	And the apple price is <span c:execute="setApplePrice(#TEXT)">15</span><br />
+	 	If I add <span c:execute="setBananaQuantity(#TEXT)">0</span> bananas<br/>
+	 	And <span c:execute="setAppleQuantity(#TEXT)">0</span> apple to my basket<br />
+	 	Then the <span c:execute="#total = getBasketTotal()">basket total</span> should be <span c:assert-equals="#total">0.0</span> <br />
+	</div>
+	
+	<h2>Scenario : Error case -> adding unsupported fruit to a basket</h2>
+
+	<div c:example="example4">
+		<h3>Example : adding a lemon</h3>
+	 	Given I add <span c:execute="setBananaQuantity(#TEXT)">2</span> bananas <br/>
+	 	And <span c:execute="setUnsupportedFruitQuantity(#TEXT)">1</span> lemon to my basket<br />
+	 	Then I should get <span c:execute="#message = getMessage()">the message</span> <span c:assert-equals="#message">article not supported</span> <br />
+	</div>
+
+	<h2>Scenario : Error case -> basket with a negative quantity</h2>
+
+	<div c:example="example5">
+		<h3>Example : Error case -> basket with a negative quantity</h3>
+	 	Given I add <span c:execute="setBananaQuantity(#TEXT)">2</span> bananas <br/>
+	 	When I remove <span c:execute="removeBananas(#TEXT)">3</span> bananas <br/>
+	 	Then I should get <span c:execute="#message = getMessage()">the message</span> <span c:assert-equals="#message">wrong quantity</span> <br />
+	 	When I remove <span c:execute="removeApples(#TEXT)">1</span> apple <br/>
+	 	Then I should get <span c:execute="#message = getMessage()">the message</span> <span c:assert-equals="#message">wrong quantity</span> <br />
+	</div>
+	
+</body>
+</html>
