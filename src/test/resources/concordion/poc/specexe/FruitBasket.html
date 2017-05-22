@@ -58,7 +58,7 @@
 		<h3>Example : Error case -> basket with a negative quantity</h3>
 	 	Given I add <span c:execute="setBananaQuantity(#TEXT)">2</span> bananas <br/>
 	 	When I remove <span c:execute="removeBananas(#TEXT)">3</span> bananas <br/>
-	 	Then I should get <span c:execute="#message = getMessage()">the message</span> <span c:assert-equals="#message">wrong quantity 2</span> <br />
+	 	Then I should get <span c:execute="#message = getMessage()">the message</span> <span c:assert-equals="#message">wrong quantity</span> <br />
 	 	When I remove <span c:execute="removeApples(#TEXT)">1</span> apple <br/>
 	 	Then I should get <span c:execute="#message = getMessage()">the message</span> <span c:assert-equals="#message">wrong quantity</span> <br />
 	</div>
